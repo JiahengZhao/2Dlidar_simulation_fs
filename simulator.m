@@ -9,9 +9,9 @@ clear all
 %% pre config
 isdisplay = true; % animation switch;
 dataname = 'test_review_6_wall'; % file name
-trajFile = fullfile(pwd,filesep,'Data',filesep,'ICRA',filesep,[dataname,'_traj.mat']); % trajectory directory
-finaldata =fullfile(pwd,filesep,'Data',filesep,'ICRA',filesep,[dataname,'.mat']); % final saved data directory
-featuredata = fullfile(pwd,filesep,'Data',filesep,'ICRA',filesep,[dataname,'_fea.mat']); % saved feature directory
+trajFile = fullfile(pwd,filesep,'Data',filesep,[dataname,'_traj.mat']); % trajectory directory
+finaldata =fullfile(pwd,filesep,'Data',filesep,[dataname,'.mat']); % final saved data directory
+featuredata = fullfile(pwd,filesep,'Data',filesep,[dataname,'_fea.mat']); % saved feature directory
 olevel = 2*1e-2; % odometry noise level
 olevelang =1*1e-4;
 obslevel = 2*1e-2; % observation noise
@@ -94,7 +94,7 @@ data.rectF = rectF;
 data.borderF = borderF;
 data.fsN = N;
 
-data.borderNum = size(border,2);
+data.borderNum = size(borderF,2);
 %%
 color='b';
 % Generate trajectory from mouse selecting
