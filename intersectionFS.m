@@ -9,7 +9,7 @@ theta_final=[];
 nCut = 12;
 stepA = 2*pi/nCut;
 xL=-pi; xU=-pi+stepA;
-if ang == pi/2 || ang== -pi/2
+if abs(ang-pi/2) <= 1e-5 || abs(ang+pi/2)<= 1e-5
     for ts = 1:nCut
         fL=func_s(an,bn,xL+(ts-1)*stepA,center,x0);
         fU=func_s(an,bn,xU+(ts-1)*stepA,center,x0);
@@ -25,20 +25,17 @@ if ang == pi/2 || ang== -pi/2
         fval=[];
         info=0;
     else
-        D = zeros(2,1);
+        D = zeros(length(theta_final),1);
         for i = 1:N+1
             D = D + an(i).*cos((i-1).*theta_final) + bn(i).*sin((i-1).*theta_final);
         end
         XX=D.*cos(theta_final)+center(1);
         YY=D.*sin(theta_final)+center(2);
-        
-        dist1 = (YY(1)-y0)^2+(XX(1)-x0)^2;
-        dist2 = (YY(2)-y0)^2+(XX(2)-x0)^2;
-        if dist1<=dist2
-            fval=[XX(1);YY(1)];
-        else
-            fval=[XX(2);YY(2)];
-        end
+
+        dists = (YY-y0).^2 + (XX-x0).^2;
+        [~,min_id] = min(dists);
+        fval=[XX(min_id);YY(min_id)];
+
         info=1;
     end
 
@@ -66,23 +63,21 @@ else % general case
         end
         XX=D.*cos(theta_final)+center(1);
         YY=D.*sin(theta_final)+center(2);
-        temp1 =  atan2(YY(2)-y0,XX(2)-x0);
-        if abs(temp1 - ang) < 1e-5
+
+        temp_angels = abs(atan2(YY-y0,XX-x0) - ang);
+        [min_ang,~] = min(temp_angels);
+        if min_ang < 1e-5
             info = 1;
-            kkkkk=1;
         else
             info = 0;
             fval = [];
             return
         end
         
-        dist1 = (YY(1)-y0)^2+(XX(1)-x0)^2;
-        dist2 = (YY(2)-y0)^2+(XX(2)-x0)^2;
-        if dist1<=dist2
-            fval=[XX(1);YY(1)];
-        else
-            fval=[XX(2);YY(2)];
-        end
+        dists = (YY-y0).^2 + (XX-x0).^2;
+        [~,min_id] = min(dists);
+        fval=[XX(min_id);YY(min_id)];
+
     end
 end
 end

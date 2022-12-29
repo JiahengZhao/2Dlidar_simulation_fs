@@ -9,9 +9,14 @@ clear all
 %% pre config
 isdisplay = true; % animation switch;
 dataname = 'test_review_6_wall'; % file name
-trajFile = fullfile(pwd,filesep,'Data',filesep,[dataname,'_traj.mat']); % trajectory directory
-finaldata =fullfile(pwd,filesep,'Data',filesep,[dataname,'.mat']); % final saved data directory
-featuredata = fullfile(pwd,filesep,'Data',filesep,[dataname,'_fea.mat']); % saved feature directory
+dataFolder = fullfile(pwd,filesep,'Data'); % data folder
+if ~exist(dataFolder, 'dir')
+    mkdir(dataFolder)
+    addpath(dataFolder)
+end
+trajFile = fullfile(dataFolder,filesep,[dataname,'_traj.mat']); % trajectory directory
+finaldata =fullfile(dataFolder,filesep,[dataname,'.mat']); % final saved data directory
+featuredata = fullfile(dataFolder,filesep,[dataname,'_fea.mat']); % saved feature directory
 olevel = 2*1e-2; % odometry noise level
 olevelang =1*1e-4;
 obslevel = 2*1e-2; % observation noise
