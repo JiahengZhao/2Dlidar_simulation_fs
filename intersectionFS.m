@@ -6,10 +6,13 @@ e = 1e-10;
 % tangent
 
 theta_final=[];    
-nCut = 12;
+% Adjust searching resolution for more accurate result. 12 is enough for
+% convex general features; 36 is recommended by
+% @WANGYINGYU(https://github.com/WANGYINGYU) for large irregular shapes.
+nCut = 12; 
 stepA = 2*pi/nCut;
 xL=-pi; xU=-pi+stepA;
-if abs(ang-pi/2) <= 1e-5 || abs(ang+pi/2)<= 1e-5
+if ang == pi/2 || ang == - pi/2
     for ts = 1:nCut
         fL=func_s(an,bn,xL+(ts-1)*stepA,center,x0);
         fU=func_s(an,bn,xU+(ts-1)*stepA,center,x0);
